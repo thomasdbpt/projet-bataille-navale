@@ -34,7 +34,10 @@ def demander_coordonnees():
     pour accéder à la grille (0-indexé).
     """
     while True:
-        saisie = input("Entrez une coordonnée (ex: A1, B5) : ").strip().upper()
+        saisie = input("Entrez une coordonnée (ex: A1, B5) / Q pour quitter / : ").strip().upper()
+
+        if saisie in ("Q", "QUIT", "q", "quit"):
+            return None
 
         # Vérifier que la saisie est au moins de longueur 2
         if len(saisie) < 2:
@@ -78,8 +81,12 @@ def jouer():
     while not grid.tous_bateaux_coules():
         grid.afficher()
         coord = fctn.demander_coordonnees()
+        if coord is None:
+            print("Vous avez quitté le jeu.")
+            break
         resultat = grid.tirer(coord[0], coord[1])
         print(resultat)
         coups += 1
 
-    print(f"Bravo ! Tous les bateaux sont coulés en {coups} coups.")
+    if coord is not None:
+        print(f"Bravo ! Tous les bateaux sont coulés en {coups} coups.")
