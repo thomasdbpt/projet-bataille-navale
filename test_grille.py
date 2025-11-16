@@ -1,5 +1,6 @@
 from grille import Grille
 from bateau import Bateau
+from colorama import Fore, Style
 
 
 def test_constructeur():
@@ -67,4 +68,21 @@ def test_ajoute_impossible_vertical(capsys):
     grid.ajoute(Bateau(1, 1, 4))
     captured = capsys.readouterr()  # récupère stdout et stderr
     attendu = "Le bateau ne peut pas être positionné à cet endroit,il dépasse\n"
+    assert captured.out == attendu
+
+
+def test_afficher(capsys):
+    grid = Grille(4, 4)
+    grid.tirer(1, 2)
+    grid.ajoute(Bateau(2, 1, 3, True))
+    grid.tirer(2, 1)
+    grid.afficher()
+    captured = capsys.readouterr()  # récupère stdout et stderr
+    attendu = (
+        "   1 2 3 4\n"
+        "A  ~ ~ ~ ~\n"
+        "B  ~ ~ " + Fore.BLUE + "o" + Style.RESET_ALL + " ~\n"
+        "C  ~ " + Fore.RED + "x" + Style.RESET_ALL + " ~ ~\n"
+        "D  ~ ~ ~ ~\n"
+    )
     assert captured.out == attendu

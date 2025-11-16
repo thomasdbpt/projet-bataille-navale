@@ -1,3 +1,6 @@
+from colorama import Fore, Style
+
+
 class Grille:
     def __init__(self, nombre_lignes, nombre_colonnes):
         self.vide = "~"
@@ -24,8 +27,28 @@ class Grille:
         else:
             print("Cette case a déjà été tirée.")
 
-    def afficher(self):
-        print(self.matrice)
+    def afficher(self, debug=False):
+        # Fonction interne pour colorer les cases
+        def colorer_case(case):
+            if case == "x":
+                return Fore.RED + "x" + Style.RESET_ALL
+            if case == "o":
+                return Fore.BLUE + "o" + Style.RESET_ALL
+            if case == "⛵":
+                # on affiche le bateau seulement si debug=True
+                return Fore.YELLOW + "⛵" + Style.RESET_ALL if debug else "~"
+            return case
+
+    # Ligne d'en-tête avec les numéros de colonnes
+        header = "   " + " ".join(str(i + 1) for i in range(self.nombre_colonnes))
+        print(header)
+
+    # Corps de la grille
+        for i in range(self.nombre_lignes):
+            lettre = chr(ord("A") + i)
+            ligne = self.matrice[i * self.nombre_colonnes: (i + 1) * self.nombre_colonnes]
+            ligne_coloree = " ".join(colorer_case(c) for c in ligne)
+            print(f"{lettre}  {ligne_coloree}")
 
     def __str__(self):
         nb_colonnes = self.nombre_colonnes
