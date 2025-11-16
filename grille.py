@@ -15,17 +15,20 @@ class Grille:
     def tirer(self, x, y, touche="x"):
         # Vérifier que le tir est dans les bornes
         if x < 0 or x >= self.nombre_lignes or y < 0 or y >= self.nombre_colonnes:
-            print("Tir en dehors de la grille !")
-            return
+            return ("Tir en dehors de la grille !")
 
         index = self.calcul_position(x, y)
 
         if self.matrice[index] == "⛵":
             self.matrice[index] = touche
+            return "Touché !"
         elif self.matrice[index] == "~":
             self.matrice[index] = "o"
+            return "Raté !"
+        elif self.matrice[index] in ("x", "o"):
+            return "Cette case a déjà été tirée."
         else:
-            print("Cette case a déjà été tirée.")
+            return ("Erreur inconnue.")
 
     def afficher(self, debug=False):
         # Fonction interne pour colorer les cases
@@ -61,3 +64,9 @@ class Grille:
                 self.matrice[self.calcul_position(x, y)] = "⛵"
         else:
             print("Le bateau ne peut pas être positionné à cet endroit,il dépasse")
+
+    def tous_bateaux_coules(self):
+        """
+        Retourne True si toutes les cases avec un bateau ont été touchées.
+        """
+        return "⛵" not in self.matrice

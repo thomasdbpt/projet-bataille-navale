@@ -86,3 +86,11 @@ def test_afficher(capsys):
         "D  ~ ~ ~ ~\n"
     )
     assert captured.out == attendu
+
+
+def test_tous_bateaux_coules():
+    grid = Grille(3, 3)
+    grid.ajoute(Bateau(0, 0, 2))
+    grid.tirer(0, 0)
+    grid.tirer(0, 1)
+    assert grid.tous_bateaux_coules()
