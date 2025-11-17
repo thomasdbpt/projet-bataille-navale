@@ -87,6 +87,8 @@ def jouer():
         resultat = grid.tirer(coord[0], coord[1])
         print(resultat)
         coups += 1
+        print(str(coups) + " coups joués")
 
     if coord is not None:
+        grid.afficher()
         print(f"Bravo ! Tous les bateaux sont coulés en {coups} coups.")
